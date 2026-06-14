@@ -13,8 +13,8 @@ body {
     color: #4a3f35; /* חום כהה עדין */
     padding: 20px;
     line-height: 1.6;
+    direction: rtl; /* הבטחת כיווניות מימין לשמאל */
 }
-
 
 /* ==========================================
    כותרת האתר (Header)
@@ -43,7 +43,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 30px;
-    flex-wrap: wrap; /* מאפשר לכרטיסים לרדת שורה כשאין מקום */
+    flex-wrap: wrap; /* מאפשר לכרטיסים לרדת שורה */
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px 10px;
@@ -57,10 +57,12 @@ body {
     border-radius: 24px; /* פינות מעוגלות מאוד למראה חמוד */
     box-shadow: 0 8px 20px rgba(224, 211, 202, 0.4); /* צל רך */
     width: 300px; /* רוחב קבוע למחשבים */
-    max-width: 100%; /* מונע מהכרטיס לצאת מגבולות המסך בטלפון */
+    max-width: 100%;
     overflow: hidden;
     transition: transform 0.3s ease;
     border: 1px solid #f3ebe4;
+    display: flex;
+    flex-direction: column; /* מסדר את התוכן מלמעלה למטה */
 }
 
 /* אפקט ריחוף קל על כל הכרטיס (למחשבים) */
@@ -70,28 +72,32 @@ body {
     }
 }
 
-/* אזור התמונה */
+/* אזור התמונה - הלב של השינוי */
 .card-image-wrapper {
     width: 100%;
-    height: 250px;
-    background-color: #ffeef2; /* רקע זמני ורדרד */
+    height: 250px; /* גובה קבוע לאזור התמונה */
+    background-color: #ffeef2; /* רקע ורדרד עדין שימלא את הרווח אם התמונה צרה/נמוכה */
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    overflow: hidden; /* שומר על הפינות המעוגלות של הכרטיס */
+    padding: 10px; /* מעט מרווח כדי שהתמונה לא תיגע בקצוות */
 }
 
 .doll-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    /* השינוי המרכזי: contain מבטיח שכל התמונה תיכנס ותישמר בשלמותה */
+    object-fit: contain; 
+    display: block;
 }
 
-/* במידה ואין תמונה (רק ה-#), יוצג טקסט זמני קטן */
+/* במידה ואין תמונה (רק ה-#) */
 .doll-image[src="#"] {
     opacity: 0;
 }
 .card-image-wrapper::before {
+    content: "מקום לתמונה 📸";
     position: absolute;
     color: #ff9ebb;
     font-weight: 600;
@@ -100,6 +106,9 @@ body {
 /* תוכן הכרטיס */
 .card-content {
     padding: 24px;
+    flex-grow: 1; /* דוחף את הפוטר לתחתית */
+    display: flex;
+    flex-direction: column;
 }
 
 .doll-title {
@@ -111,8 +120,8 @@ body {
 .doll-description {
     font-size: 0.95rem;
     color: #7a6b5f;
-    min-height: 70px; /* שומר על גובה מינימלי ליישור הכפתורים */
     margin-bottom: 20px;
+    flex-grow: 1; /* דוחף את שורת המחיר למטה במידה והתיאור קצר */
 }
 
 /* שורת מחיר וכפתור */
@@ -120,6 +129,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: auto; /* מבטיח שזה תמיד בתחתית הכרטיס */
 }
 
 .doll-price {
@@ -154,7 +164,7 @@ body {
    ========================================== */
 @media (max-width: 480px) {
     body {
-        padding: 10px; /* פחות רווח בצדדי המסך בטלפון */
+        padding: 10px;
     }
 
     .site-header {
@@ -162,7 +172,7 @@ body {
     }
 
     .site-header h1 {
-        font-size: 2rem; /* הקטנת הכותרת הראשית שתתאים למסך קטן */
+        font-size: 2rem;
     }
 
     .site-header p {
@@ -170,3 +180,38 @@ body {
     }
 
     .products-container {
+        gap: 20px;
+        padding: 10px 5px;
+    }
+
+    .doll-card {
+        width: 100%; /* תופס את כל הרווח בטלפון */
+        border-radius: 20px;
+    }
+
+    .card-image-wrapper {
+        height: 220px; /* גובה קצת יותר נמוך בטלפון */
+    }
+
+    .card-content {
+        padding: 20px;
+    }
+
+    .doll-title {
+        font-size: 1.25rem;
+    }
+
+    .doll-description {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    .doll-price {
+        font-size: 1.2rem;
+    }
+    
+    .buy-button {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+}
