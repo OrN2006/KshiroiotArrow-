@@ -91,7 +91,6 @@ body {
     opacity: 0;
 }
 .card-image-wrapper::before {
-    content: "מקום לתמונה 📸";
     position: absolute;
     color: #ff9ebb;
     font-weight: 600;
